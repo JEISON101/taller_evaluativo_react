@@ -1,8 +1,17 @@
 import { useState } from "react";
-import { FormularioEditorial } from "./formularioEditorial";
+import { FormularioEditorial } from "../components/formularioEditorial";
+import { useNavigate } from "react-router-dom";
 
-export const Editoriales: React.FC<{editoriales:any[], setEditoriales:any}> = ({editoriales}) => {
+export const Editoriales: React.FC<{ editoriales: any[], setEditoriales: any }> = ({ editoriales }) => {
     const [form, setForm] = useState(false);
+    const [id, setId] = useState<number>();
+    const navigate = useNavigate()
+
+    const eliminarEditorial = async (id: any) => {
+        await fetch(`http://localhost:3333/editorial/${id}`, {
+            method: 'DELETE'
+        });
+    }
 
     return (
         <>
@@ -16,7 +25,6 @@ export const Editoriales: React.FC<{editoriales:any[], setEditoriales:any}> = ({
                         Añadir Editorial
                     </button>
                 </div>
-
                 <div className="overflow-x-auto bg-white shadow rounded-lg">
                     <table className="min-w-full text-left text-sm text-gray-800">
                         <thead className="bg-gray-800 text-white">
@@ -33,13 +41,13 @@ export const Editoriales: React.FC<{editoriales:any[], setEditoriales:any}> = ({
                                         <td className="px-6 py-4">{editorial.nombre}</td>
                                         <td className="px-6 py-4">{editorial.pais}</td>
                                         <td className="px-6 py-4 space-x-2">
-                                            <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-md cursor-pointer">
+                                            <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-md cursor-pointer" onClick={() => {setForm(true); setId(editorial.id_editorial)}} >
                                                 Editar
                                             </button>
-                                            <button className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer">
+                                            <button className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer" onClick={() => eliminarEditorial(editorial.id_editorial)}>
                                                 Eliminar
                                             </button>
-                                            <button className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded-md cursor-pointer">
+                                            <button className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded-md cursor-pointer" onClick={() => navigate(`/libros/editorial/${editorial.id_editorial}`)}>
                                                 Ver libros
                                             </button>
                                         </td>
@@ -48,7 +56,7 @@ export const Editoriales: React.FC<{editoriales:any[], setEditoriales:any}> = ({
                             ) : (
                                 <tr>
                                     <td colSpan={3} className="px-6 py-4 text-center text-gray-800 text-lg">
-                                        No hay datos disponibles
+                                        No hay Editoriales disponibles
                                     </td>
                                 </tr>
                             )}
@@ -57,7 +65,7 @@ export const Editoriales: React.FC<{editoriales:any[], setEditoriales:any}> = ({
                 </div>
             </div>
 
-            {form && <FormularioEditorial setForm={setForm} />}
+            {form && <FormularioEditorial setForm={setForm} id={id}/>}
         </>
     );
 };

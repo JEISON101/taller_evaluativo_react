@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { FormularioLibro } from "./formularioLibro"
+import { FormularioLibro } from "../components/formularioLibro"
 
 type Libro = {
+    id_libro:number;
     titulo: string;
     autor: string;
     anio_publicacion: number;
@@ -11,6 +12,7 @@ type Libro = {
 export const Libros: React.FC<{editoriales:any[]}> = ({editoriales}) => {
     const [formulario, setFormulario] = useState(false)
     const [libros, setLibros] = useState<Libro[]>([])
+    const [id_l, setIdL] = useState<number>()
 
     const getLibros = () => {
         fetch("http://localhost:3333/libros")
@@ -18,14 +20,17 @@ export const Libros: React.FC<{editoriales:any[]}> = ({editoriales}) => {
             .then(data => {
                 setLibros(data.datos.rows)
             })
-            .catch(error => {
-                console.error('Error al obtener los datos:', error);
-            });
+    }
+
+        const eliminarLibro = async(id:any) => {
+        await fetch(`http://localhost:3333/libro/${id}`, {
+            method: 'DELETE'
+        });
     }
 
     useEffect(() => {
         getLibros();
-    }, []);
+    }, [libros]);
 
 
 
@@ -60,10 +65,10 @@ export const Libros: React.FC<{editoriales:any[]}> = ({editoriales}) => {
                                         <td className="px-6 py-4">{libro.anio_publicacion}</td>
                                         <td className="px-6 py-4">{libro.editorial}</td>
                                         <td className="px-6 py-4 space-x-2">
-                                            <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-md cursor-pointer">
+                                            <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-md cursor-pointer" onClick={()=>{setFormulario(true); setIdL(libro.id_libro)}}>
                                                 Editar
                                             </button>
-                                            <button className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer">
+                                            <button className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer" onClick={()=>eliminarLibro(libro.id_libro)}>
                                                 Eliminar
                                             </button>
                                         </td>
@@ -80,7 +85,7 @@ export const Libros: React.FC<{editoriales:any[]}> = ({editoriales}) => {
                     </table>
                 </div>
             </div>
-            {formulario && <FormularioLibro setFormulario={setFormulario} editoriales={editoriales} />}
+            {formulario && <FormularioLibro setFormulario={setFormulario} editoriales={editoriales} idL={id_l}/>}
         </div>
     )
 }
