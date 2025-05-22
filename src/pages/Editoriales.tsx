@@ -37,7 +37,7 @@ export const Editoriales: React.FC<{ editoriales: any[], setEditoriales: any }> 
                         <tbody>
                             {editoriales.length > 0 ? (
                                 editoriales.map((editorial, index) => (
-                                    <tr key={index} className="border-b hover:bg-gray-100">
+                                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                                         <td className="px-6 py-4">{editorial.nombre}</td>
                                         <td className="px-6 py-4">{editorial.pais}</td>
                                         <td className="px-6 py-4 space-x-2">

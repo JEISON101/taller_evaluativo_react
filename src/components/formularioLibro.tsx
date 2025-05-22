@@ -10,10 +10,10 @@ export const FormularioLibro: React.FC<{ setFormulario: (value: boolean) => void
         if (idL !== undefined) {
             const res = await fetch(`http://localhost:3333/libro/${idL}`);
             const data = await res.json();
-            setTitulo(data.titulo);
-            setAutor(data.autor);
-            setAnioPublicacion(data.anio_publicacion);
-            setEditorial_id(data.editorial_id)
+            setTitulo(data.libro[0].titulo);
+            setAutor(data.libro[0].autor);
+            setAnioPublicacion(data.libro[0].anio_publicacion);
+            setEditorial_id(data.libro[0].editorial_id);
         }
     }
 
@@ -40,7 +40,9 @@ export const FormularioLibro: React.FC<{ setFormulario: (value: boolean) => void
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">{idL !== undefined? "Agregar Libro": "Actualizar Libro"}</h2>
+                <h2 className="text-2xl font-bold mb-6 text-gray-800">
+                    {idL === undefined ? "Agregar Libro" : "Editar Libro"}
+                </h2>
                 <form onSubmit={manejarSubmitLibro}>
 
                     <div className="mb-4">

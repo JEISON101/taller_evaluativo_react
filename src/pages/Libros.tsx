@@ -59,7 +59,7 @@ export const Libros: React.FC<{editoriales:any[]}> = ({editoriales}) => {
                         <tbody>
                             {libros.length > 0 ? (
                                 libros.map((libro, index) => (
-                                    <tr key={index} className="border-b hover:bg-gray-50">
+                                    <tr key={index} className="border-b border-gray-200 hover:bg-gray-50">
                                         <td className="px-6 py-4">{libro.titulo}</td>
                                         <td className="px-6 py-4">{libro.autor}</td>
                                         <td className="px-6 py-4">{libro.anio_publicacion}</td>

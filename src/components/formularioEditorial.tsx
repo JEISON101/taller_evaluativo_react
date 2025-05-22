@@ -8,8 +8,8 @@ export const FormularioEditorial: React.FC<{ setForm: (value: boolean) => void; 
         if (id !== undefined) {
             const res = await fetch(`http://localhost:3333/editorial/${id}`);
             const data = await res.json();
-            setNombre(data.nombre);
-            setPais(data.pais);
+            setNombre(data.editorial[0].nombre);
+            setPais(data.editorial[0].pais);
         }
     }
 

@@ -3,7 +3,7 @@ import './App.css'
 import { NavBar } from './components/navBar'
 import { Home } from './components/home'
 import { Libros } from './pages/Libros'
-import { Editoriales } from './pages/editoriales'
+import { Editoriales } from './pages/Editoriales'
 import { useEffect, useState } from 'react'
 import { LibrosEditorial } from './pages/LibrosEditorial'
 
